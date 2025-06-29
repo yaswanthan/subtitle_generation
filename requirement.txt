@@ -9,4 +9,4 @@ torchvision
 torchaudio
 openai-whisper
 ffmpeg-python
-twilio
+streamlit

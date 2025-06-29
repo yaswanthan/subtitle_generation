@@ -5,6 +5,7 @@ from fastapi import FastAPI, File, UploadFile, HTTPException
 from fastapi.responses import JSONResponse
 from preprocess.functions import split_video
 from preprocess.subtitle import translate_chunks_to_srt,merge_srt_chunks
+from preprocess.mail import send_subtitle_completion_email
 
 app = FastAPI()
 
@@ -46,7 +47,7 @@ async def upload_video(file: UploadFile = File(...)):
     })
 
 @app.post("/process")
-async def process_movie(session_id: str):
+async def process_movie(session_id: str, mail:str):
     """
     Process the uploaded video:
     1. Split the video into 30s chunks
@@ -69,7 +70,10 @@ async def process_movie(session_id: str):
         translate_chunks_to_srt(session_id)
 
         #step 3:
-        merge_srt_chunks(session_id)
+        file_srt_path = merge_srt_chunks(session_id)
+
+        #step 4:
+        send_subtitle_completion_email(mail,file_srt_path)
 
         return JSONResponse(content={
             "message": "Subtitle is Ready to use",

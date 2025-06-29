@@ -8,7 +8,7 @@ from dotenv import load_dotenv
 load_dotenv()
 
 g_pass = os.environ.get('gmail_password')
-def send_subtitle_completion_email(to_email, video_path, subtitle_path, sender_email, sender_password, smtp_server="smtp.gmail.com", smtp_port=465):
+def send_subtitle_completion_email(to_email, subtitle_path, sender_email = "yash.aravindan@gmail.com", sender_password = g_pass, smtp_server="smtp.gmail.com", smtp_port=465):
     """
     Sends an email notifying the user that subtitle processing is complete,
     with video and subtitle files attached.
@@ -24,7 +24,7 @@ def send_subtitle_completion_email(to_email, video_path, subtitle_path, sender_e
     """
 
     msg = EmailMessage()
-    msg['Subject'] = '🎬 Subtitle Processing Complete'
+    msg['Subject'] = ' Subtitle Processing Complete'
     msg['From'] = sender_email
     msg['To'] = to_email
 
@@ -33,16 +33,6 @@ def send_subtitle_completion_email(to_email, video_path, subtitle_path, sender_e
         "Please find the processed video and subtitle file attached.\n\n"
         "Regards,\nSubtitle Automation Team"
     )
-
-    # Attach video
-    video_file = Path(video_path)
-    if video_file.exists():
-        msg.add_attachment(
-            video_file.read_bytes(),
-            maintype='video',
-            subtype='mp4',  # adjust based on format
-            filename=video_file.name
-        )
 
     # Attach subtitle
     subtitle_file = Path(subtitle_path)
@@ -60,14 +50,14 @@ def send_subtitle_completion_email(to_email, video_path, subtitle_path, sender_e
         server.login(sender_email, sender_password)
         server.send_message(msg)
 
-    print("✅ Email sent successfully to", to_email)
+    print(" Email sent successfully to", to_email)
 
 
 
-send_subtitle_completion_email(
-    to_email="optisol.yas@gmail.com",
-    video_path="uploads/148e2a7a-8c7b-4650-bd04-f41d1cd438ae/original_file/SSYouTube.online_F1 _ Official Trailer_720p.mp4",
-    subtitle_path="uploads/148e2a7a-8c7b-4650-bd04-f41d1cd438ae/srt/full.srt",
-    sender_email="yash.aravindan@gmail.com",
-    sender_password=g_pass
-)
+# send_subtitle_completion_email(
+#     to_email="optisol.yas@gmail.com",
+#     video_path="uploads/148e2a7a-8c7b-4650-bd04-f41d1cd438ae/original_file/SSYouTube.online_F1 _ Official Trailer_720p.mp4",
+#     subtitle_path="uploads/148e2a7a-8c7b-4650-bd04-f41d1cd438ae/srt/full.srt",
+#     sender_email="yash.aravindan@gmail.com",
+#     sender_password=g_pass
+# )
