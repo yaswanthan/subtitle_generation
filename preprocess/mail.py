@@ -9,6 +9,7 @@ load_dotenv()
 
 g_pass = os.environ.get('gmail_password')
 def send_subtitle_completion_email(to_email, subtitle_path, sender_email = "yash.aravindan@gmail.com", sender_password = g_pass, smtp_server="smtp.gmail.com", smtp_port=465):
+    
     """
     Sends an email notifying the user that subtitle processing is complete,
     with video and subtitle files attached.

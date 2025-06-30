@@ -5,6 +5,7 @@ from pydub import AudioSegment
 from moviepy import VideoFileClip
 
 def split_video(session_id: str, chunk_duration: int = 30):
+
     """
     Splits the video associated with a session_id into 30-second chunks.
 
@@ -12,6 +13,7 @@ def split_video(session_id: str, chunk_duration: int = 30):
         session_id (str): Session identifier to locate the video file.
         chunk_duration (int): Duration of each chunk in seconds.
     """
+
 
     input_dir = os.path.join("uploads", session_id, "original_file")
     output_dir = os.path.join("uploads", session_id, "chunk")
@@ -37,6 +39,7 @@ def split_video(session_id: str, chunk_duration: int = 30):
 
 
 def extract_and_chunk_audio(session_id: str, chunk_length_sec: int = 30):
+
     """
     Extracts audio from the uploaded video in:
         uploads/<session_id>/original_file/
@@ -50,6 +53,7 @@ def extract_and_chunk_audio(session_id: str, chunk_length_sec: int = 30):
     Returns:
         List of audio chunk file paths (as strings)
     """
+    
     base_dir = Path("uploads") / session_id
     original_dir = base_dir / "original_file"
     output_dir = base_dir / "audio_chunks"

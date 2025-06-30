@@ -2,7 +2,23 @@ from pathlib import Path
 import whisper
 
 def format_timestamp(seconds):
-    """Converts seconds (float) to SRT timestamp format: HH:MM:SS,mmm"""
+
+    """
+    Converts a time value in seconds (as a float) into a string formatted according to the SubRip Subtitle (SRT) timestamp specification.
+    The SRT timestamp format is 'HH:MM:SS,mmm', where:
+        - HH is hours, zero-padded to two digits
+        - MM is minutes, zero-padded to two digits
+        - SS is seconds, zero-padded to two digits
+        - mmm is milliseconds, zero-padded to three digits
+    Parameters:
+        seconds (float): The time value in seconds to be converted. Can include fractional seconds.
+    Returns:
+        str: The formatted timestamp string in 'HH:MM:SS,mmm' format, suitable for use in SRT subtitle files.
+    Example:
+        >>> format_timestamp(3661.257)
+        '01:01:01,257'
+    """
+
     hours = int(seconds // 3600)
     minutes = int((seconds % 3600) // 60)
     secs = int(seconds % 60)
@@ -11,6 +27,7 @@ def format_timestamp(seconds):
 
 
 def translate_chunks_to_srt(session_id: str, model_size: str = "large"):
+
     """
     Translates all video chunks in uploads/<session_id>/chunks/
     and generates English .srt subtitle files for each chunk.
@@ -19,6 +36,7 @@ def translate_chunks_to_srt(session_id: str, model_size: str = "large"):
         session_id (str): UUID of the session
         model_size (str): Whisper model size ("tiny", "base", "small", "medium", "large")
     """
+
     base_dir = Path("uploads") / session_id
     chunk_dir = base_dir / "chunk"
     srt_dir = base_dir / "srt"
@@ -52,6 +70,7 @@ def translate_chunks_to_srt(session_id: str, model_size: str = "large"):
 
 
 def merge_srt_chunks(session_id: str, chunk_duration_sec: int = 30, output_filename: str = "full.srt"):
+
     """
     Merges all SRT files in uploads/<session_id>/srt into one, adjusting the timestamps.
 
@@ -60,6 +79,7 @@ def merge_srt_chunks(session_id: str, chunk_duration_sec: int = 30, output_filen
         chunk_duration_sec (int): Length of each chunk in seconds
         output_filename (str): Output merged SRT filename (default: full.srt)
     """
+
     srt_dir = Path("uploads") / session_id / "srt"
     output_path = srt_dir / output_filename
     srt_files = sorted(srt_dir.glob("*.srt"), key=lambda p: int(p.stem))
@@ -98,7 +118,25 @@ def merge_srt_chunks(session_id: str, chunk_duration_sec: int = 30, output_filen
 
 
 def shift_timestamp(timestamp: str, offset_sec: int) -> str:
-    """Shift a timestamp (e.g. 00:00:28,000) by offset seconds."""
+
+    """
+    Shifts a timestamp string by a given offset in seconds.
+
+    The timestamp should be in the SubRip Subtitle (SRT) format: 'HH:MM:SS,mmm'.
+    The function adds the specified offset (in seconds) to the timestamp and returns the new timestamp in the same format.
+
+    Args:
+        timestamp (str): The original timestamp string (e.g., '00:00:28,000').
+        offset_sec (int): The number of seconds to add to the timestamp.
+
+    Returns:
+        str: The shifted timestamp string in 'HH:MM:SS,mmm' format.
+
+    Example:
+        >>> shift_timestamp('00:00:28,000', 30)
+        '00:00:58,000'
+    """
+    
     hours, minutes, rest = timestamp.split(":")
     seconds, millis = rest.split(",")
 
