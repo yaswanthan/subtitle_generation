@@ -17,6 +17,12 @@ This project provides an end-to-end pipeline for generating subtitles from video
    - Port 8000: FastAPI backend
    - Port 8501: Streamlit frontend
 
+3. **To check where files are saved in DOCKER**
+         ```bash
+   docker exec -it <container_name> bash
+   ```
+   Where you can see all the files.
+
 ### 2. Running Locally (Without Docker)
 
 1. **Install Python 3.10+ and pip**
