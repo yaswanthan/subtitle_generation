@@ -51,7 +51,7 @@ def transcribe_and_save_srt(video_path: str, model_size: str = "small"):
             f.write(f"{start} --> {end}\n")
             f.write(f"{text}\n\n")
 
-    print(f"✅ Subtitle saved to: {srt_path}")
+    print(f" Subtitle saved to: {srt_path}")
     return srt_path
 
 # Example usage

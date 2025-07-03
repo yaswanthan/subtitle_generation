@@ -4,6 +4,12 @@ FROM python:3.10-slim
 # Set working directory
 WORKDIR ./
 
+# Install dependencies
+RUN apt-get update && \
+    apt-get install -y ffmpeg && \
+    apt-get clean
+
+
 # Copy requirement and install
 COPY requirement.txt .
 RUN pip install torch torchvision torchaudio
